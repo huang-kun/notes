@@ -1,13 +1,13 @@
-在Ubuntu16.04安装Python3.6.5
+# 在Ubuntu16.04安装Python3.6.5
 
 
 #### 安装依赖环境
 
 ```
-sudo apt-get install openssl  
-sudo apt-get install libssl-dev
-sudo apt-get install libc6-dev gcc  
-sudo apt-get install -y make build-essential zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm tk-dev 
+apt-get install openssl  
+apt-get install libssl-dev
+apt-get install libc6-dev gcc  
+apt-get install -y make build-essential zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm tk-dev 
 ```
 
 
@@ -65,3 +65,13 @@ make install
 ```
 ln -s /root/Python-3.6.5/python /usr/bin/python3
 ```
+
+
+# 解决pip错误
+
+我在Ubuntu使用`pip install xxx`的时候，发现出错`'lsb_release -a' returned non-zero exit status 1`，后来找到解决方案是因为这个文件`/usr/bin/lsb_release`，网上说该文件默认是使用Python 3来实现的，但是lsb_release却需要Python 2的环境，因此需要：
+
+1. 将文件`/usr/bin/lsb_release`文件的首行改为`#! /usr/bin/python2.7`
+2. 保存后继续执行`pip install xxx`，如果出错并且错误指向该文件的语法问题的话，那么还需要将该文件的语法适配到Python 2.7的语法，修改后保存再次执行`pip install`，不出意外应该能成功
+
+参考[pip is showing error 'lsb_release -a' returned non-zero exit status 1](https://stackoverflow.com/questions/44967202/pip-is-showing-error-lsb-release-a-returned-non-zero-exit-status-1)
