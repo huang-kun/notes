@@ -14,6 +14,10 @@ root     15546 15500  0 14:19 pts/0    00:00:00 python3 -u main.py
 root     15548 15500  0 14:19 pts/0    00:00:00 grep --color=auto python
 ```
 
+## 跟踪log变化
+
+`tail -f log.txt` 查看程序是否正在后台运行
+
 ## 销毁程序
 
 `kill -9 15546`
