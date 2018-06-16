@@ -1,3 +1,10 @@
+// ---------- diagnostic ------------
+// http://fuckingclangwarnings.com
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    
+#pragma clang diagnostic pop
 
 
 // --------- available  ----------
