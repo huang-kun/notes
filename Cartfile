@@ -1,0 +1,5 @@
+# carthage update --platform iOS
+github "https://github.com/Alamofire/Alamofire" ~> 4.5       # Alamofire
+github "https://github.com/Moya/Moya" ~> 9.0                 # Moya
+github "https://github.com/onevcat/Kingfisher" ~> 4.0        # Kingfisher
+github "https://github.com/TextureGroup/Texture" ~> 2.4      # Texture

@@ -1,0 +1,20 @@
+// ---------- diagnostic ------------
+// http://fuckingclangwarnings.com
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    
+#pragma clang diagnostic pop
+
+
+// --------- available  ----------
+
+// objc
+if @available(iOS 11.0, *) {
+    
+}
+
+// swift
+if #available(iOS 8, *) {
+
+}
