@@ -3,7 +3,9 @@
 
 Visual Studio Code（简称vscode）是微软开源的一个IDE，目前可以支持多种语言的项目开发。我目前学习python，所以在IDE方面，它是除了`PyCharm`以外的最佳选择了。
 
-系统：macOS High Sierra
+* 安装版本：社区版1.21.0
+* 运行系统：macOS High Sierra
+* 开发语言：python 3.6.5
 
 
 ## 配置python环境
@@ -83,14 +85,21 @@ plt.show()
 使用REPL环境可以在交互式的命令行中开发python，在vscode使用`⇧⌘P`开启命令输入框，输入`> start repl`，回车开启REPL环境。
 
 
-## 快捷键
+## lint
+
+程序语法的静态检查对于开发来说还是相当重要的，我个人可不希望写完一堆代码后，一拿去执行才发现各种语法错误编译不过。vscode会自带Pylint作为静态检查器。每次保存文件时，如果有错误，就会提示。当然也有可能因为配置了新的隔离环境而导致了没有lint检查器的情况，于是就需要自己安装，方法如下：
+
+1. 在vscode终端，通过`source venv/bin/activate`进入隔离环境
+2. 使用`pip3 install pylint`下载检查器
+3. 快捷键`⇧⌘P`开启命令框，使用`>select linter`命令，选择`pylint`
+4. 编辑python文件，保存，如果有错误的话出现提示，说明安装成功
+
+
+## 常用快捷键
 
 * 新建文件`⌘N`
 * 查找`⌘F`，替换`⌥⌘F`
 * 命令选择框`⇧⌘P`
-* 缩进
-	* 向右缩进`⇥`（或`⌘]`）
-	* 向左缩进`⇧⇥`（或`⌘[`）
 * 切换标签tab
 	* 向左`⇧⌘[`
 	* 向右`⇧⌘]`
@@ -101,6 +110,33 @@ plt.show()
 * 光标高亮
 	* 高亮右侧至行尾`⇧⌘→`
 	* 高亮左侧至行首`⇧⌘←`
+* 代码缩进
+	* 向右缩进`⇥`（或`⌘]`）
+	* 向左缩进`⇧⇥`（或`⌘[`）
+
+
+## 快速创建flask项目
+
+1. `mkdir HelloFlask` # 创建项目
+2. `cd HelloFlask` # 进入项目
+3. `python3 -m venv env` # 创建隔离环境
+4. `code .` # 用code命令直接打开vscode，安装需要code命令，方法是`>shell command: install code command in path`
+5. `>select interpreter` # 选择 ./env/bin/python 即隔离环境下的解释器
+6. `>create terminal` # 直接进入(venv)命令行
+7. `pip3 install flask` # 安装flask框架
+8. 创建一个`app.py`，写好初始化代码
+
+```
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return 'Hello, Flask!'
+```
+
+* 终端运行：在终端通过`(venv) python3 -m flask run`运行程序，还可以带参数`--host=0.0.0.0 --port=80`
+* 调试运行：选择vscode的Bug图标 -> 调试设置图标 -> 生成launch.json -> 选择"Python: Flask (0.11.x or later)" -> 点击箭头运行
 
 
 ## 参考
