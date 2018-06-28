@@ -31,7 +31,7 @@ mysqldump -u [username] –p[password] [参数] [database_name] > [dump_file.sql
 
 参考 [How To Backup Databases Using mysqldump Tool](http://www.mysqltutorial.org/how-to-backup-database-using-mysqldump.aspx)
 
-## 数据库导入
+#### 数据库导入
 
 ```
 mysql -u root -p < file.sql
@@ -41,16 +41,16 @@ mysql -u root -p < file.sql
 
 * 创建数据库`CREATE DATABASE [IF NOT EXISTS] database_name;`
 * 显示数据库`SHOW DATABASES;`
-* 使用数据库`USE database_name;`
+* 选择数据库`USE database_name;`
 * 删除数据库`DROP DATABASE [IF EXISTS] database_name;`
 
-## 表管理
+#### 表管理
 
 在此前，首先要选择数据库！
 
 * 显示所有表`SHOW TABLES;`
-* 查看单个表结构/描述`DESCRIBE table_name`
-* 查看单个原始创建表的结构`SHOW CREATE TABLE table_name`
+* 查看表结构/描述`DESCRIBE table_name`
+* 查看创建语句`SHOW CREATE TABLE table_name`
 * 删除表`DROP table_name`
 
 导出全部表结构`mysqldump -u [user] -p [database_name] --compact --no-data`
