@@ -1,8 +1,28 @@
 # MySQL速查表
 
-## zsh配置
+## MySQL安装
 
-由于在mac上安装了mysql，但是在终端无法使用mysql命令，所以需要修改终端的配置。而我使用zsh，首先`cd ~`，然后`vim .zshrc`，在alias的部分里添加如下配置
+### macOS
+
+在macOS可以使用`brew`或者在官网下载`.dmg`文件安装。
+
+#### brew安装mysql
+
+`brew install mysql`
+
+brew默认安装的mysql的root用户是没有密码的，建议安装完成后执行`mysql_secure_installation`来进行安全设置。
+
+安装结束后，不可以直接运行mysql，否则会出现`can't connect to local mysql server through socket '/tmp/mysql.sock' (2)`的错误，因为安装后并没有启动mysql服务。
+
+启动服务可以运行`brew services start mysql`或者`mysql.server start`
+
+#### 安装dmg文件
+
+文件下载后，会安装`MYSQL.prefPane`设置文件，里面有关于mysql的一些运行设置。
+
+**zsh配置**
+
+由于在mac上安装了mysql，但是在终端无法使用mysql命令，看来选择文件安装的话，就没有设置系统级别的命令，需要修改终端的配置，而我使用zsh，首先`cd ~`，然后`vim .zshrc`，在alias的部分里添加如下配置
 
 ```
 alias mysql=/usr/local/mysql/bin/mysql
@@ -87,7 +107,8 @@ AFTER description;
 
 ```
 ALTER TABLE tasks
-DROP COLUMN description;
+DROP COLUMN description; # 删除行
+DROP FOREIGN KEY mytable_ibfk_1; # 删除外键，可以用show create table来查看外键
 ```
 
 #### 表重命名
