@@ -19,7 +19,7 @@ Visual Studio Code（简称vscode）是微软开源的一个IDE，目前可以�
 
 1. 开启terminal，如果没有`virtualenv`的话，安装虚拟环境`pip3 install virtualenv`
 2. 创建项目路径`mkdir MathLab`，进入项目`cd MathLab`
-3. 创建隔离环境`virtualenv --no-site-packages venv`，后面的参数意思是创建一个没有任何的第三方库的环境
+3. 创建隔离环境`virtualenv --no-site-packages venv`，后面的参数意思是不会将系统Python库给安装过来，这样就创建了一个没有任何的第三方库的环境，这里的`venv`是隔离环境目录的名字，也可以改成其他名字。
 4. 进入隔离环境`source venv/bin/activate`
 	* 这时候命令行提示符出现`(venv)`的前缀，表示当前的环境是该项目的隔离环境，不会受到系统python环境的干扰
 	* 在这里输入`which python3`可以看到这里运行的python解释器是该环境下的解释器
