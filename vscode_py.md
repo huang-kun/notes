@@ -95,6 +95,41 @@ plt.show()
 4. 编辑python文件，保存，如果有错误的话出现提示，说明安装成功
 
 
+## 设置code命令直接打开vscode
+
+有个方便开启vs项目的方法：在terminal中，使用`code`命令直接用vscode打开项目。设置方法有两步：
+
+1. 在vscode中，使用命令`>shell command: install code command in path`，即在vscode中安装了一个名为code的可执行文件
+2. 配置到全局：正常情况下，在macOS通过目录`/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code`找到这个code，然后把该路径配置到terminal中，由于我使用zsh，所以在`.zshrc`里添加一个alias即可
+
+```
+# vscode
+alias code="/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code"
+```
+
+
+## 设置requirements.txt
+
+给项目添加一个`requirements.txt`就可以方便管理第三方库和对应版本了，在项目中可以通过命令快速生成该文件。
+
+`pip3 freeze > requirements.txt`
+
+然后打开它，可以看见格式是这样的：
+
+```
+appnope==0.1.0
+backcall==0.1.0
+decorator==4.3.0
+....
+```
+
+可以在里面添加所需的库和对应版本。
+安装所有依赖库的命令是：
+
+```
+pip3 install -r requirements.txt
+```
+
 ## 常用快捷键
 
 * 新建文件`⌘N`
@@ -120,7 +155,7 @@ plt.show()
 1. `mkdir HelloFlask` # 创建项目
 2. `cd HelloFlask` # 进入项目
 3. `python3 -m venv env` # 创建隔离环境
-4. `code .` # 用code命令直接打开vscode，安装需要code命令，方法是`>shell command: install code command in path`
+4. `code .` # 用vscode打开项目
 5. `>select interpreter` # 选择 ./env/bin/python 即隔离环境下的解释器
 6. `>create terminal` # 直接进入(venv)命令行
 7. `pip3 install flask` # 安装flask框架
