@@ -54,7 +54,7 @@ mysqldump -u [username] –p[password] [参数] [database_name] > [dump_file.sql
 #### 数据库导入
 
 ```
-mysql -u root -p < file.sql
+mysql -u [username] –p[password] [database_name] < [file.sql]
 ```
 
 ## 数据库管理
@@ -71,7 +71,7 @@ mysql -u root -p < file.sql
 * 显示所有表`SHOW TABLES;`
 * 查看表结构/描述`DESCRIBE table_name`
 * 查看创建语句`SHOW CREATE TABLE table_name`
-* 删除表`DROP table_name`
+* 删除表`DROP TABLE table_name`
 
 导出全部表结构`mysqldump -u [user] -p [database_name] --compact --no-data`
 
@@ -108,6 +108,8 @@ AFTER description;
 ```
 ALTER TABLE tasks
 DROP COLUMN description; # 删除行
+
+ALTER TABLE tasks
 DROP FOREIGN KEY mytable_ibfk_1; # 删除外键，可以用show create table来查看外键
 ```
 
