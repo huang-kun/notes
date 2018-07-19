@@ -54,15 +54,11 @@ git config --global alias.ci commit
 
 #### diff
 
-`git diff HEAD <file>`对比文件在工作区里修改前后的区别，其中`HEAD`可以省略。
-
-如果改动被添加到`staging area`的话，也可以通过参数`--cached`或`--staged`来查看`staging area`中文件的改动区别。
-
-`git diff <commit_id> <next_commit_id>`可以查看两次提交的改动区别，中间可以是空格或者`..`符号
-
-`git diff <branch1> <branch2>`查看分支区别
-
-`git diff master new_branch ./diff_test.txt`查看文件在不同分支里的区别
+* `git diff HEAD <file>`对比文件在工作区里修改前后的区别，其中`HEAD`可以省略。
+* 如果改动被添加到`staging area`的话，也可以通过参数`--cached`或`--staged`来查看`staging area`中文件的改动区别。
+* `git diff <commit_id> <next_commit_id>`可以查看两次提交的改动区别，中间可以是空格或者`..`符号
+* `git diff <branch1> <branch2>`查看分支区别
+* `git diff master new_branch ./diff_test.txt`查看文件在不同分支里的区别
 
 #### stash
 
@@ -90,11 +86,52 @@ git config --global alias.ci commit
 
 #### gitignore
 
+通过在git追踪的项目主目录下添加`.gitignore`文件，来忽略对某些文件的追踪。具体的匹配模式[查看这里](https://www.atlassian.com/git/tutorials/saving-changes/gitignore)。此外也可以自己设置ignore规则，强制提交被忽略的文件等等。还可以通过`git check-ignore -v <file_path>`来检查某个文件是否匹配到忽略文件列表中。
+
 ### Inspecting a repository
 
 #### status
 
+显示`working area`, `staging area`的状态，以及没有追踪的文件。
+
+#### log
+
+显示提交历史
+
+* `-n <limit>`限制个数
+* `--oneline`单行显示（缩减版id）
+* `--pretty=oneline`单行显示
+* `--stat`显示改动文件与行数
+* `-p`显示全部细节
+* `--author="<pattern>"`按作者名查找，也可以使用正则表达式
+* `--grep="<pattern>"`查找提交的message查找，也可以使用正则表达式
+* `<since>..<until>`给定区间查找，可以是commit_id，分支名称或者HEAD
+* `<file>`查看某个文件的提交历史
+* `--graph --decorate --oneline`图形组合
+
+可以使用`~`表示某个提交之前/上n个提交，比如`HEAD~1`表示最近一次提交的上一次提交；`586f91e~3`表示id为586f91e的提交前面的第三个提交。
+
+
 #### tag
+
+标记某个提交（打标签），通常用于标记发布版本
+
+* 创建标签就是`git tag <tagname>`，即给当前的最新提交打个标签
+* tag分为两种类型：
+	* `Annotated tag`：用于公开，可包含多个元信息：名称、邮箱、日期
+		* `git tag -a v1.4 -m`可以添加额外备注
+	* `Lightweight tag`：只要不带`-a -s -m`等参数的都算
+		* `git tag v1.4`
+* `git tag`可以查看标签列表，参数`-l`可以匹配通配符，比如`git tag -l *-rc*`就匹配出带有-rc的版本号
+* `git tag <tagname> <commit_id>`可以为某个提交打标签
+	* 如果重复打同名标签的话就会失败，可以通过`-f`参数来强制更新某个提交的标签
+	* 比如`git tag -a -f <tagname> <commit_id>`
+* `-d`删除标签
+
+使用`git push`默认不会把本地tags推送到远程，需要添加参数`git push --tags`；而`pull`或`clone`操作会把远程的tags同步到本地。
+
+`git checkout <tagname>`会将HEAD设置成分离的状态，之后的任何改动都不会改变那个tag下的提交，改动后保存的提交不会归属于任何一个分支，只能通过查找id的方式来追溯，不过推荐将在此之后的改动创建为新的分支。
+
 
 #### blame
 
