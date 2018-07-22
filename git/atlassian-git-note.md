@@ -2,6 +2,12 @@
 
 ## Getting Started
 
+git中的3大区域：
+
+* `working`区域
+* `staging`区域
+* `commit`历史
+
 ### Setting up a repository
 
 #### init
@@ -135,15 +141,61 @@ git config --global alias.ci commit
 
 #### blame
 
+用于查看文件的每一行/段内容最后是谁来编辑/修改的。`git blame`可以查看使用帮助，通常该命令格式为`git blame [参数] <file>`
+
+
 ### Undoing changes
+
+git里的回退/撤销有以下方法：
+
+* `git checkout <old_commit>`查看之前的提交，不会改变历史
+* `git revert`适合在多人协作的公共分支上进行回退，不会改变历史
+* `git reset`适合在自己本地的分支里进行回退，会改变历史
+* 如果最后一次提交不够全面的话，可以`git commit --amend`来修改它
+* 对于撤销`staging area`的修改，可以`git reset --mixed`
+* 对于撤销`working area`的修改，可以`git clean`或者`git checkout -- <file>`
 
 #### checkout
 
+`git checkout <commit_id>`查看某个提交，该行为会让`HEAD`指针移动到指定提交的位置，该行为会造成`detached HEAD`状态，即`HEAD`指针与`branch`指针的位置分离了。在该状态下，可以随意查看、修改、生成新的提交，而且不会影响到任何分支，由于这些新提交不属于任何一个分支，因此它们被看作是`Orphaned`，这样它们就会在切回分支的时候被垃圾回收给清理掉，好像不存在过一样。如果想保留这些新提交的话，就需要在此节点上建立一个新的分支，来维持它们的存在。
+
+`git checkout <file>`与之不同，它只是查看旧版本的文件，并没有移动`HEAD`指针的位置，所以不会造成`detached HEAD`状态。
+
 #### clean
+
+该命令是删除未被git追踪的文件，使用的话必须使用参数：
+
+* `-n`会执行一个`dry run`，相当于从git中删除，但不会真正删除实际文件
+* `-f`会执行删除命令，删除项目中没有被git追踪的文件
+  * `git clean -f <path>`删除指定某个文件
+* `-d`指定操作对象仅为目录，可以和上面的参数联合使用，比如`-dn`,`-df`
+* `-x`指定操作对象为`.gitignore`里所有的文件
+* `-i`交互模式
 
 #### revert
 
+该命令会重置某次提交的内容，然后将该行为作为一次新的提交记录下来，而被重置的提交依然保存在之前的历史中。使用时需要指定位置信息，比如`git revert HEAD`或者`git revert <commit_id>`
+
+* `-e`或`--edit`打开编辑器，是默认行为
+* `--no-edit`不会打开编辑器
+* `-n`或`--no-commit`不会提交的撤销，即撤销到提交前的`staging area`
+
+需要特别注意的是：
+
+1. `revert`不会改变历史，只可能增加历史节点
+2. `revert`只是重制单个提交的内容，不包含那次提交后面至今的所有历史
+
 #### reset
+
+`git reset [参数] [指针位置或者commit_id]`进行撤销操作，将历史回退到某个节点。
+
+之前提到的`checkout`只是移动`HEAD`指针指向某个历史提交位置，`branch`指针的位置不变，所以保留了分支里所有历史信息。而`reset`通过移动`HEAD`和`branch`两个指针到指定的提交位置，把回退的位置作为历史最新的节点，这样之后的所有提交就被“丢弃”了。
+
+* `--hard`将回退`working`,`staging`,`commits`3个区域到指定的历史节点，来还原当时的情景，因此**会丢弃`working`和`staging`区域下的全部改动**，也被视为危险操作
+* `--mixed`将回退`staging`,`commits`2个区域到指定的历史节点，因此在`staging`下的改动会返回到`working`区域
+* `--soft`只回退`commits`区域到指定的历史节点，多余的改动保留进了`staging`区域，而`working`区域保持不变
+
+`git reset`等同于`git reset --mixed HEAD`，即撤销到最近一次的提交历史，并且将`staging`区域的改动返回至`working`区域。
 
 ### Rewriting history
 
