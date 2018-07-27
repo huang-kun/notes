@@ -297,6 +297,21 @@ git里的回退/撤销有以下方法：
 
 #### pull
 
+`pull`是下载远程分支的内容到本地分支，并且更新本地分支。使用`git pull <remote>`相当于:
+
+1. `git fetch <remote>`
+2. `git merge origin/<urrent-branch>`
+
+* `--no-commit`不会产生默认的merge行为的提交
+* `--rebase`不会merge，但是会在本地分支历史上添加远程的分支节点（追加拷贝过来的提交）
+* `--verbose`打印细节
+
+如果执行下面这句配置，那么`git pull`会默认执行`rebase`替代`merge`
+
+```
+git config --global branch.autosetuprebase always
+```
+
 ### Making a pull request
 
 ### Using branches
