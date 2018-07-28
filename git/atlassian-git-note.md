@@ -312,7 +312,26 @@ git里的回退/撤销有以下方法：
 git config --global branch.autosetuprebase always
 ```
 
+
 ### Making a pull request
+
+`Pull Request`(简称`PR`)可以用来给其他人的repo贡献自己的代码，即使你不是他们的内部成员。发起一个`PR`需要设定四个基本信息：
+
+1. 起源仓库（source: 谁发起的，或从哪里发起的）
+2. 起源分支
+3. 目标仓库（destination: 打算合并进去的仓库）
+4. 目标分支
+
+完成一个`PR`的步骤：
+
+1. 在别人公开的仓库中点击`fork`，然后就有了自己的一份拷贝来的远程仓库
+2. 通过`git clone`自己的远程仓库到本地，可以建立新的分支来添加功能或修复bugs
+3. 把所有改动用`git push`到自己的远程仓库
+4. 发起一个`PR`，将自己的这个远程仓库设为`source`，打算合并到别人的仓库作为`destination`
+5. 在通过对方代码审核后，可以被合并到指定分支里，结束
+
+步骤的具体细节可以参考[Bitbucket](https://www.atlassian.com/git/tutorials/making-a-pull-request)
+
 
 ### Using branches
 
