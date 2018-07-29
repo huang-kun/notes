@@ -293,7 +293,9 @@ git里的回退/撤销有以下方法：
 
 1. 最常用的是：先`git pull`同步远程分支，再上传`git push`
 2. 强行更正最后提交：如果打算修改最后一次已上传的提交，最好在别人更新之前，使用`git commit --amend`修改提交，然后`--force`上传到远程
-3. 删除分支：首先删除本地分支`git branch -D <name>`；再删除远程分支`git push origin :<name>`
+3. 删除远程分支：
+  * 首先删除本地分支`git branch -D <name>`
+  * 再删除远程分支`git push origin --delete <name>`或者`git push origin :<name>`
 
 #### pull
 
@@ -337,7 +339,16 @@ git config --global branch.autosetuprebase always
 
 #### branch
 
-#### checkout
+git分支的创建是一个轻量级的操作，只是生成一个新指针指向当前的位置，展现一个全新的工作区。
+
+* `git branch`默认使用`--list`来查看所有的本地分支
+* `git branch <name>`创建一个新分支，但是并没有切换到新分支
+* `-d`删除一个分支，如果该分支存在没有合并的提交，则拒绝删除
+* `-D`强制删除一个分支，即使有未合并的提交
+* `-m`将当前分支重命名为指定名称
+* `-a`查看所有远程分支
+
+#### checkout <branch>
 
 #### merge
 
