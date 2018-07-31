@@ -361,7 +361,27 @@ git分支的创建是一个轻量级的操作，只是生成一个新指针指�
 `checkout`用于在不同版本的目标对象中切换，切换的对象可以是：文件、提交和分支。
 `git checkout -b <new_branch> <existing_branch>`用来创建新分支，并切换到该分支，如果没有<existing_branch>就默认为当前分支
 
+
 #### merge
+
+`merge`作用是将分叉的历史重新合并到一起的过程。合并有两种情况：（以下通过master和feature分支为例子）
+
+1. `Fast Forward Merge`:从master创建了feature分支后，随着feature不断增长，master没有变化，于是两个分支构成一个线性结构。合并的时候只需要将master分支的指针位置移动到feature分支最新的提交位置，就完成了将feature合并回master的过程。
+  * `--no-ff`在合并后总是创建一个提交节点，记录合并操作。
+2. `3-way Merge`:如果上面的例子中，随着feature不断增长，master自己同样有了新的提交，这样两个分支就分叉了。合并的时候需要创建一个单独的提交，用来作为两个分支的相交点。
+
+在`3-way Merge`的情况下，如果两个分支都修改了同一个文件的同一行位置，合并时候就会终止合并提交而产生冲突。冲突会由特定的的符号来表示：
+
+```
+here is some content not affected by the conflict
+<<<<<<< master
+this is conflicted text from master
+=======
+this is conflicted text from feature branch
+```
+
+通常上部分为接收合并的分支内容，下部分为合并进来的分支内容。解决冲突后，就可以继续进行未完成的合并提交。
+
 
 ### Comparing workflows
 
