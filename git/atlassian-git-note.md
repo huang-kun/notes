@@ -8,6 +8,10 @@ git中的3大区域：
 * `staging`区域
 * `commit`历史
 
+Detached HEADS：
+
+这是一种指针分离的状态，意思是在该状态下的指针位置与当前项目开发的分支环境已经分离，在该状态下对项目进行改动都不属于任何分支，回到原先项目节点后将不会在历史中显示在分离状态下的改动（除非手动创建分支来追踪他们）。
+
 ### Setting up a repository
 
 #### init
@@ -342,13 +346,20 @@ git config --global branch.autosetuprebase always
 git分支的创建是一个轻量级的操作，只是生成一个新指针指向当前的位置，展现一个全新的工作区。
 
 * `git branch`默认使用`--list`来查看所有的本地分支
+  * `-a`查看所有远程分支
 * `git branch <name>`创建一个新分支，但是并没有切换到新分支
-* `-d`删除一个分支，如果该分支存在没有合并的提交，则拒绝删除
-* `-D`强制删除一个分支，即使有未合并的提交
+  * `-b`创建新分支，并切换到该分支，相当于`git branch <name>`然后`git checkout <name>`
+* 删除分支
+  * `-d`删除一个分支，如果该分支存在没有合并的提交，则拒绝删除
+  * `-D`强制删除一个分支，即使有未合并的提交
+  * 删除远程分支的话，参考`push`
 * `-m`将当前分支重命名为指定名称
-* `-a`查看所有远程分支
+
 
 #### checkout <branch>
+
+`checkout`用于在不同版本的目标对象中切换，切换的对象可以是：文件、提交和分支。
+`git checkout -b <new_branch> <existing_branch>`用来创建新分支，并切换到该分支，如果没有<existing_branch>就默认为当前分支
 
 #### merge
 
