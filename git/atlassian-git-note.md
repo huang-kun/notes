@@ -1,5 +1,6 @@
 # Git笔记
 
+
 ## Getting Started
 
 git中的3大区域：
@@ -12,11 +13,14 @@ Detached HEADS：
 
 这是一种指针分离的状态，意思是在该状态下的指针位置与当前项目开发的分支环境已经分离，在该状态下对项目进行改动都不属于任何分支，回到原先项目节点后将不会在历史中显示在分离状态下的改动（除非手动创建分支来追踪他们）。
 
+
 ### Setting up a repository
+
 
 #### init
 
 该命令会在当前目录下创建一个`.git`的隐藏目录，用于进行项目进展的历史记录。
+
 
 #### clone
 
@@ -25,6 +29,7 @@ git clone ssh://john@example.com/path/to/my-project.git
 ```
 
 克隆是指将远程仓库拷贝一份到本地，依照这个命令会将仓库复制到my-project目录下。当然克隆命令也可以用在本地其他目标仓库上，不过通常情况下是用来初次复制远程仓库。
+
 
 #### config
 
@@ -50,11 +55,14 @@ git config --global alias.ci commit
 
 通过alias可以给原有的命令进行重命名，比如输入`ci`就可以执行`commit`；当然也可以直接在配置文件里修改。
 
+
 ### Saving changes
+
 
 #### add
 
 将改动从`working area`添加到`staging area`，可以添加文件、目录，甚至只添加部分改动。`staging area`就好比一个缓冲区`buffer`，存放着一些还没有准备好提交的改动。
+
 
 #### commit
 
@@ -64,6 +72,7 @@ git config --global alias.ci commit
 * `--amend`可以允许修改最近一次的提交，修改后的提交时间仍然不变。
 * `--allow-empty`可以保存一次空的提交
 
+
 #### diff
 
 * `git diff HEAD <file>`对比文件在工作区里修改前后的区别，其中`HEAD`可以省略。
@@ -71,6 +80,7 @@ git config --global alias.ci commit
 * `git diff <commit_id> <next_commit_id>`可以查看两次提交的改动区别，中间可以是空格或者`..`符号
 * `git diff <branch1> <branch2>`查看分支区别
 * `git diff master new_branch ./diff_test.txt`查看文件在不同分支里的区别
+
 
 #### stash
 
@@ -100,11 +110,14 @@ git config --global alias.ci commit
 
 通过在git追踪的项目主目录下添加`.gitignore`文件，来忽略对某些文件的追踪。具体的匹配模式[查看这里](https://www.atlassian.com/git/tutorials/saving-changes/gitignore)。此外也可以自己设置ignore规则，强制提交被忽略的文件等等。还可以通过`git check-ignore -v <file_path>`来检查某个文件是否匹配到忽略文件列表中。
 
+
 ### Inspecting a repository
+
 
 #### status
 
 显示`working area`, `staging area`的状态，以及没有追踪的文件。
+
 
 #### log
 
@@ -163,11 +176,13 @@ git里的回退/撤销有以下方法：
 * 对于撤销`staging area`的修改，可以`git reset --mixed`
 * 对于撤销`working area`的修改，可以`git clean`或者`git checkout -- <file>`
 
+
 #### checkout
 
 `git checkout <commit_id>`查看某个提交，该行为会让`HEAD`指针移动到指定提交的位置，该行为会造成`detached HEAD`状态，即`HEAD`指针与`branch`指针的位置分离了。在该状态下，可以随意查看、修改、生成新的提交，而且不会影响到任何分支，由于这些新提交不属于任何一个分支，因此它们被看作是`Orphaned`，这样它们就会在切回分支的时候被垃圾回收给清理掉，好像不存在过一样。如果想保留这些新提交的话，就需要在此节点上建立一个新的分支，来维持它们的存在。通过`git checkout <branch>`回到最近的进度。
 
 `git checkout <file>`与之不同，它只是查看旧版本的文件，并没有移动`HEAD`指针的位置，所以不会造成`detached HEAD`状态。
+
 
 #### clean
 
@@ -179,6 +194,7 @@ git里的回退/撤销有以下方法：
 * `-d`指定操作对象仅为目录，可以和上面的参数联合使用，比如`-dn`,`-df`
 * `-x`指定操作对象为`.gitignore`里所有的文件
 * `-i`交互模式
+
 
 #### revert
 
@@ -193,6 +209,7 @@ git里的回退/撤销有以下方法：
 1. `revert`不会改变历史，只可能增加历史节点
 2. `revert`只是重制单个提交的内容，不包含那次提交后面至今的所有历史
 
+
 #### reset
 
 `git reset [参数] [文件路径/指针位置/commit_id]`进行撤销操作，将历史回退到某个节点。
@@ -204,6 +221,7 @@ git里的回退/撤销有以下方法：
 * `--soft`只回退`commits`区域到指定的历史节点，多余的改动保留进了`staging`区域，而`working`区域保持不变
 
 `git reset`等同于`git reset --mixed HEAD`，即撤销到最近一次的提交历史，并且将`staging`区域的改动返回至`working`区域。
+
 
 #### rm
 
@@ -218,6 +236,7 @@ git里的回退/撤销有以下方法：
 
 ### Rewriting history
 
+
 #### commit --amend
 
 修改最后一次提交的情况和方法：
@@ -229,6 +248,7 @@ git里的回退/撤销有以下方法：
 	2. `git commit --amend --no-edit`可以在不修改提交信息的情况下修改提交
 
 **不要用`--amend`修改已经放在远程的提交**，不然也会影响到其他开发人员
+
 
 #### rebase
 
@@ -252,9 +272,12 @@ git里的回退/撤销有以下方法：
 
 [查看网页](https://www.atlassian.com/git/tutorials/rewriting-history/git-reflog)
 
+
 ## Collaborating
 
+
 ### Syncing
+
 
 #### remote
 
@@ -270,7 +293,9 @@ git里的回退/撤销有以下方法：
 * `get-url <name>`获取URL信息
 * `show <name>`显示详情
 * `prune <name>`删除在远程不存在的本地分支
-	* `--dry-run`来调试结果
+	* `prune origin <name>`删除远程不存在的分支
+	* `-n`或`--dry-run`来调试结果
+
 
 #### fetch
 
@@ -285,6 +310,7 @@ git里的回退/撤销有以下方法：
 
 `fetch`后可以通过`git log --oneline master..origin/master`查看本地与master与远程master分支的区别
 
+
 #### push
 
 `push`将本地的分支内容上传到远程分支，通常是`git push <remote> <branch>`，相当于在远程使用`fast-forward merge`将指针推进到上传的最新进度。如果上传的内容不能满足`fast-forward merge`的话（意思是远程和本地的分支出现分歧），需要首先`git pull`同步到最新的远程进度，再`git push`
@@ -292,6 +318,7 @@ git里的回退/撤销有以下方法：
 * `--force`即强制上传，使得远程分支更新到与本地分支一致，如果不能满足`fast-forward merge`的话，远程某些提交会被覆盖，造成历史丢失
 * `--all`上传本地所有分支
 * `--tags`上传本地所有tags，而tags是不会通过`git push`默认上传的
+* `-u`将新创建的本地分支设置为可追踪的远程分支，比如`git push -u origin <new_feature>`
 
 使用场景：
 
@@ -300,6 +327,7 @@ git里的回退/撤销有以下方法：
 3. 删除远程分支：
   * 首先删除本地分支`git branch -D <name>`
   * 再删除远程分支`git push origin --delete <name>`或者`git push origin :<name>`
+
 
 #### pull
 
@@ -340,6 +368,7 @@ git config --global branch.autosetuprebase always
 
 
 ### Using branches
+
 
 #### branch
 
