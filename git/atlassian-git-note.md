@@ -446,6 +446,19 @@ git rebase --abort
 ```
 
 
+### Other git commands
+
+
+#### grep
+
+搜索工作区的改动内容，比如`git grep 'hello'`
+
+
+#### show
+
+显示信息，比如提交、标签等等
+
+
 ## Advanced Tips
 
 ### Merging vs. Rebasing
