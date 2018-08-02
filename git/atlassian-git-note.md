@@ -3,15 +3,19 @@
 
 ## Getting Started
 
-git中的3大区域：
+**git中的3大区域**：
 
 * `working`区域
 * `staging`区域
 * `commit`历史
 
-Detached HEADS：
+**Detached HEADS**：
 
 这是一种指针分离的状态，意思是在该状态下的指针位置与当前项目开发的分支环境已经分离，在该状态下对项目进行改动都不属于任何分支，回到原先项目节点后将不会在历史中显示在分离状态下的改动（除非手动创建分支来追踪他们）。
+
+**转义符号**
+
+`--`将其后面的参数转义成文件名来处理，[参考这里](https://segmentfault.com/q/1010000006723213?_ea=1113161)
 
 
 ### Setting up a repository
@@ -174,7 +178,7 @@ git里的回退/撤销有以下方法：
 * `git reset`适合在自己本地的分支里进行回退，会改变历史
 * 如果最后一次提交不够全面的话，可以`git commit --amend`来修改它
 * 对于撤销`staging area`的修改，可以`git reset --mixed`
-* 对于撤销`working area`的修改，可以`git clean`或者`git checkout -- <file>`
+* 对于撤销`working area`的修改，可以`git checkout -- <file>`
 
 
 #### checkout
@@ -188,7 +192,7 @@ git里的回退/撤销有以下方法：
 
 该命令是删除未被git追踪的文件，使用的话必须使用参数：
 
-* `-n`会执行一个`dry run`，相当于从git中删除，但不会真正删除实际文件
+* `-n`或`--dry-run`会执行调试模式，打印出所有删除的文件，但不会真正删除实际文件
 * `-f`会执行删除命令，删除项目中没有被git追踪的文件
   * `git clean -f <path>`删除指定某个文件
 * `-d`指定操作对象仅为目录，可以和上面的参数联合使用，比如`-dn`,`-df`
