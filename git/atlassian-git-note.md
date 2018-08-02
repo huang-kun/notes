@@ -414,6 +414,38 @@ this is conflicted text from feature branch
 
 ### Comparing workflows
 
+工作流的几种类型：
+
+* `Centralized`：像svn一样，所有人围绕一个远程的中心仓库来协作开发，适合小团队开发
+* `Feature Branch`：根据不同功能建立相应的分支，保持主干分支的稳定（不包含正在开发中的代码）
+* `Gitflow`：利用git的特性和实际开发的生产环境进行严格划分的工作流，包含`master, develop, release, hotfix`等专用分支
+* `Forking`：从官方项目的远程仓库那里，克隆一份作为自己项目的远程仓库，可以不受官方限制而修改源码，也可以和官方协作开发，常用在开源项目中
+	* 在fork工作流中，会存在两个远程仓库，惯例上命名为：官方远程仓库`upstream`和自己fork来的远程仓库`origin`
+	* 在`git clone`自己的远程仓库时候会自动创建origin名称，而官方仓库名需要自己添加`git remote add upstream <official_codebase>`
+	* 同步官方远程最新的代码`git fetch upstream`或者`git pull upstream master`
+
+**merge vs. rebase**
+
+分支从远程更新也可以用rebase的形式：
+
+```
+git pull --rebase origin master
+```
+
+如果出现冲突，那么会终止当前的rebase操作，通过`git status`查看冲突文件，解决后可以继续rebase
+
+```
+git add <some_files>
+git rebase --continue
+```
+
+之后git会继续在rebase过程中查看下一个提交是否构成冲突。如果希望撤回rebase操作的话，可以
+
+```
+git rebase --abort
+```
+
+
 ## Advanced Tips
 
 ### Merging vs. Rebasing
