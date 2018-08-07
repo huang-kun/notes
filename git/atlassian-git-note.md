@@ -467,6 +467,23 @@ git rebase --abort
 
 ### Merging vs. Rebasing
 
+这两个命令其实都是为了将分岔的工作流统一起来的方法，只是实现方式不同而已。`merge`是一种不会破坏历史线的安全方式，但是缺点是多次的合并会让不同的分支之间出现多次的穿插记录；而`rebase`是通过修改历史来创造出一个干净的线性工作流，方便代码审核与历史的可读性。
+
+在合并或同步工作流时，如果害怕出错的话，完全可以使用保守的`merge`方式；而其他某些情况下是`rebase`施展身手的时刻，比如：**在本地feature分支上重新整理之前的提交历史，构造一个更简洁清晰的历史线**。首先用`merge-base`命令找到开启分支/分岔点，然后通过交互式的`rebase`来重头整理这个feature分支的每个提交。
+
+```
+git merge-base feature master # 返回一个分岔的commit_id
+git rebase -i <commit_id>
+```
+
+但是使用`rebase`要遵守一条黄金定律，就是`rebase`不能用在公共分支上！因为其修改历史记录的特性会影响到其他协作同伴的工作流。
+
+不过有个情况可行，比如我和Mary两个人都在一个公共的feature分支里工作，我仍然可以把`Mary/feature`远程分支`fetch`下来，然后将自己的改动`rebase`到Mary的最新成果上，因为我没有修改Mary的工作历史，所以不会出问题。
+
+如果把自己的feature分支开启了`Pull Request`，让其他团队成员来代码审核，那么之后的改动就不要再`rebase`了，因为使用了`PR`后，大家都可以看到你的提交，意味着这个feature分支已经是公共分支了，别人也许会修改它。当该分支审核通过后，你仍然可以用`rebase`来让feature分支更新到master最新的节点，让feature保持线性历史，只要别修改master的历史就好。
+
+假如对`rebase`操作没有足够信心的话，可以创建一个临时分支进行`rebase`实验，即使出错也可以`checkout`重来。
+
 ### Resetting, checking out and reverting
 
 ### Advanced git log
@@ -480,3 +497,5 @@ git rebase --abort
 ## 参考
 
 [atlassian git tutorial](https://www.atlassian.com/git/tutorials)
+
+
