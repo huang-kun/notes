@@ -216,9 +216,9 @@ git里的回退/撤销有以下方法：
 
 #### reset
 
-`git reset [参数] [文件路径/指针位置/commit_id]`进行撤销操作，将历史回退到某个节点。
+`git reset [参数] [指针位置/commit_id]`进行撤销操作，将历史回退到某个节点；它可以回退某个文件的状态，比如`git reset <file>`。
 
-之前提到的`checkout`只是移动`HEAD`指针指向某个历史提交位置，`branch`指针的位置不变，所以保留了分支里所有历史信息。而`reset`通过移动`HEAD`和`branch`两个指针到指定的提交位置，把回退的位置作为历史最新的节点，这样之后的所有提交就被“丢弃”了。
+之前提到的`checkout`只是移动`HEAD`指针指向某个历史提交位置，不会改变当前分支末端的位置，所以保留了分支里所有历史信息。而`reset`移动当前分支末端的位置到指定的提交位置，因此这里就成为历史最新的节点`HEAD`，该节点之后的所有提交就被“丢弃”了。
 
 * `--hard`将回退`working`,`staging`,`commits`3个区域到指定的历史节点，来还原当时的情景，因此**会丢弃`working`和`staging`区域下的全部改动**，也被视为危险操作
 * `--mixed`将回退`staging`,`commits`2个区域到指定的历史节点，因此在`staging`下的改动会返回到`working`区域
@@ -465,6 +465,7 @@ git rebase --abort
 
 ## Advanced Tips
 
+
 ### Merging vs. Rebasing
 
 这两个命令其实都是为了将分岔的工作流统一起来的方法，只是实现方式不同而已。`merge`是一种不会破坏历史线的安全方式，但是缺点是多次的合并会让不同的分支之间出现多次的穿插记录；而`rebase`是通过修改历史来创造出一个干净的线性工作流，方便代码审核与历史的可读性。
@@ -484,7 +485,40 @@ git rebase -i <commit_id>
 
 假如对`rebase`操作没有足够信心的话，可以创建一个临时分支进行`rebase`实验，即使出错也可以`checkout`重来。
 
+
 ### Resetting, checking out and reverting
+
+这里对比了几种回退历史的方法：
+
+| Command      | Scope        | Common use cases                                                     |
+| ------------ | ------------ | -------------------------------------------------------------------- |
+| git reset    | Commit-level | Discard commits in a private branch or throw away uncommited changes |
+| git reset    | File-level   | Unstage a file                                                       |
+| git checkout | Commit-level | Switch between branches or inspect old snapshots                     |
+| git checkout | File-level   | Discard changes in the working directory                             |
+| git revert   | Commit-level | Undo commits in a public branch                                      |
+| git revert   | File-level   | (N/A)                                                                |
+
+#### 回退提交历史
+
+在回退提交历史的操作里，`reset`和`checkout`区别是：`reset`是将分支的末端位置设置成以前某个历史节点，这样会导致该节点之后的提交被遗弃到了分支的外面（过一段时间后会被垃圾收集器清理掉）；而`checkout`会保留分支的末端位置，只是移动当前的HEAD指针指向以前某个历史节点，用于查看当时的项目状态。`checkout`切换分支也是将HEAD指针移动到不同分支的末端位置。相对于他们来说，`revert`是通过增加新的历史节点来实现重置以前某个提交的改动。
+
+#### 撤回文件
+
+`reset`和`checkout`也可以分别重置某个文件到之前的历史状态，而且不会改动历史线。
+
+* `git reset <commid_id> <file_path>`会把指定文件在过去某个历史时刻的状态，放入到`staging`区
+* `git checkout <commid_id> <file_path>`会把指定文件在过去某个历史时刻的状态，改回到`working`区
+
+`git reset HEAD~2 foo.py`会将该文件的状态返回到HEAD前两个提交那里，并且将当时的状态摆设到`staging`区域，等待用户提交；而且将撤销前的现状摆设到`working`区，保留撤销前的现场，现在给用户两个选择：
+
+1. `git commit`，一旦直接提交的话，新增的提交中该文件就变成了当时的样子
+2. `git add`，执行以后，文件就跟撤销前一样，没有变化
+
+`git checkout HEAD~2 foo.py`会将文件状态恢复到指定时候的样子，然后将恢复操作摆设到`staging`区，一旦提交的话，新增的提交里该文件就成了过去的样子。
+
+所以总结回退文件的话，通过`reset`不能直接看到文件的变化，因为变化在`staging`区，需要`git diff`可以对比从某时刻到现在的变化；而`checkout`可以直观地看到文件某个历史时刻的状态。前者看变化，后者看状态。
+
 
 ### Advanced git log
 
