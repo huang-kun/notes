@@ -163,6 +163,7 @@ git config --global alias.ci commit
 
 `git checkout <tagname>`会将HEAD设置成分离的状态，之后的任何改动都不会改变那个tag下的提交，改动后保存的提交不会归属于任何一个分支，只能通过查找id的方式来追溯，不过推荐将在此之后的改动创建为新的分支。
 
+如果需要查看`Annotated tag`的细节信息/笔记的话，可以使用`git tag -n9`查看所有tags的信息；或者`git tag -l -n9 v3.*`通配符来匹配特定版本的信息/笔记。
 
 #### blame
 
