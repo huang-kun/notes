@@ -240,6 +240,8 @@ git里的回退/撤销有以下方法：
 * `--cached`将`staging`区的文件从git追踪里删除，但仍会保留修改后的文件在磁盘里
 * 其他参数可以参考文档
 
+举个例子，比如我一开始使用`Pycharm`开发python程序的时候，默认追踪了`.idea/`路径，之后把该目录加入在`.gitignore`中，发现并没有效果，原因就是`.gitignore`只是忽略新添加的文件，不包含之前已经在追踪的文件，除非将其从仓库中删除（不是从磁盘中删除），方法是`git rm --cached -r .idea`
+
 ### Rewriting history
 
 
