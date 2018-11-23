@@ -526,6 +526,29 @@ git rebase -i <commit_id>
 
 ### Advanced git log
 
+原文主要分了两部分来介绍`git log`，前半部分内容是介绍如何通过不同参数显示log的不同排版样式，后半部分内容是介绍如何高效的筛选log，这里总结一下筛选部分：
+
+* 限制数量：`git log -3`
+* 时间范围：`git log --after="2014-7-1" --before="2014-7-4"`
+	* 也可以使用`--since`和`--until`来替换`--after`和`--before`
+* 筛选人：
+	* 作者：`git log --author="John\|Mary"`
+	* 提交者：`git log --committer="John\|Mary"`
+	* 人名可以进行正则匹配
+* 筛选提交描述信息：`git log --grep="JRA-224:"`，添加参数`-i`可以在格式匹配时忽略大小写？
+* 筛选文件：`git log -- foo.py bar.py`
+* 筛选内容：
+	* `git log -S"Hello, World!"`查看关于添加了`Hello, World!`的记录
+	* 如果需要正则匹配，可以用`-G"<regex>"`的格式
+* 筛选范围：使用`git log <since>..<until>`的格式来筛选范围
+	* `git log master..feature`显示了在feature中但不在master上的提交
+	* `git log feature..master`显示了在master中但不在feature上的提交
+	* 如果同时显示了两个版本，说明提交历史已经出现了分岔`diverged`
+* 筛选或过滤合并节点：
+	* `git log --no-merges`过滤所有合并节点
+	* `git log --merges`显示所有合并节点
+
+	
 ### Git hook
 
 ### Refs and Reflog
