@@ -240,7 +240,15 @@ git里的回退/撤销有以下方法：
 * `--cached`将`staging`区的文件从git追踪里删除，但仍会保留修改后的文件在磁盘里
 * 其他参数可以参考文档
 
-举个例子，比如我一开始使用`Pycharm`开发python程序的时候，默认追踪了`.idea/`路径，之后把该目录加入在`.gitignore`中，发现并没有效果，原因就是`.gitignore`只是忽略新添加的文件，不包含之前已经在追踪的文件，除非将其从仓库中删除（不是从磁盘中删除），方法是`git rm --cached -r .idea`
+通常我们修改gitignore来忽略一些新的文件，但是修改后发现这些文件可能之前已经被追踪过了，所以并没有生效。举个例子，比如我一开始使用`Pycharm`开发python程序的时候，默认追踪了`.idea/`路径，之后把该目录加入在`.gitignore`中，发现并没有效果，原因就是`.gitignore`只是忽略新添加的文件，不包含之前已经在追踪的文件，除非将其从仓库中删除（不是从磁盘中删除）。解决方法是`git rm --cached -r .idea`，这样就可以从仓库中删除`.idea/`和内部的文件，但是不会真正删除目录和文件本身。
+
+看了[这篇文章](http://www.codeblocq.com/2016/01/Untrack-files-already-added-to-git-repository-based-on-gitignore/)后，总结了以下方法来批量忽略文件：
+
+1. 提交修改后的gitignore
+2. `git rm -r --cached .`清除所有git追踪的文件，但不会清除实际的文件
+3. `git add .`添加回来，这样新的gitignore的规则就生效了
+4. `git commit -m 'Untrack files: xxx'`
+
 
 ### Rewriting history
 
