@@ -355,6 +355,7 @@ git里的回退/撤销有以下方法：
 * `--no-commit`不会产生默认的merge行为的提交
 * `--rebase`不会merge，但是会在本地分支历史上添加远程的分支节点（追加拷贝过来的提交）
 * `--verbose`打印细节
+* `--allow-unrelated-histories`这个用于在本地添加了远程分支后，第一次pull用这个参数会将远程的commit历史添加到本地的历史中
 
 如果执行下面这句配置，那么`git pull`会默认执行`rebase`替代`merge`
 
