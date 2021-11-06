@@ -1,0 +1,41 @@
+# 极客时间《物联网开发实战》学习笔记
+
+## 搭建硬件的mac开发环境：
+
+- 选择开源硬件的开发板：NodeMCU（基于ESP8266芯片版本）
+- 采用python语言开发，通过烧录工具esptool把MicroPython的固件文件烧录到开发板的Flash中
+- 使用终端模拟器软件，通过串口协议连接上开发板，进行交互。
+
+==== 踩坑总结 ====
+
+#### 文件驱动
+
+烧录前，先看电脑是否成功连接（或识别）固件。如果电脑无法识别固件，说明没有安装驱动
+
+下载驱动前首先看芯片类型，如果是CH340，就下载这个驱动安装
+https://cdn.sparkfun.com/assets/learn_tutorials/8/4/4/CH341SER_MAC.ZIP
+
+如果是CP2102，就打开这个网页下载
+https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers
+
+安装成功后，如果依然没有识别，很可能需要更换USB数据线，因为某些数据线只能用于充电，无法传输数据。
+
+#### MicroPython
+
+这里是MicroPython针对ESP8266的固件
+https://micropython.org/download/esp8266/
+
+#### pymakr
+
+进行连接识别，除了SecureCRT外，可以采用开源免费vscode的pymakr插件。
+安装好以后，在pymakr.json配置文件（可通过Pymakr -> Global Setting命令找到）里更新以下字段：
+"address": "实际的串口名称"
+"open_on_start": false
+"auto_connect": false
+
+其中串口名称通过`ls /dev/cu*`来查看。
+
+#### pyboard
+
+可以在这里下载pyboard.py的源码
+https://github.com/micropython/micropython/blob/master/tools/pyboard.py
